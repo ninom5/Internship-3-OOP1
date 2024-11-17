@@ -8,10 +8,11 @@ namespace Internship_3_OOP1.Classes
 {
     public class ProjectFunctions
     {
+        private static List<ProjectTasks> dummy = new List<ProjectTasks>();
         public static void CreateNewProject()
         {
             Console.WriteLine("Prvo unosite podatke o projektu te potom zadatke i podatke o njima");
-            string nameOfProject = GetProjectName();
+            string nameOfProject = GetProjectName(true);
 
             Console.WriteLine("Unesite opis projekta");
             string description = GetProjectDescription();
@@ -27,9 +28,8 @@ namespace Internship_3_OOP1.Classes
 
             TaskFunctions.CreateTask(newProject);
         }
-        private static string GetProjectName()
+        private static string GetProjectName(bool isNewName)
         {
-            List<ProjectTasks> dummy = new List<ProjectTasks>();
             string nameOfProject;
             while (true)
             {
@@ -40,7 +40,7 @@ namespace Internship_3_OOP1.Classes
                     Console.WriteLine("Ime projekta ne smije biti prazno unesite opet");
                     continue;
                 }
-                if (FunctionalityFunctions.CheckIfNameExists(nameOfProject, "projekt", dummy))
+                if (FunctionalityFunctions.CheckIfNameExists(nameOfProject, "projekt", dummy) && isNewName)
                 {
                     Console.WriteLine("Već postoji projekt s istim imenom molimo odaberite novo ime");
                     continue;
@@ -49,6 +49,7 @@ namespace Internship_3_OOP1.Classes
             }
             return nameOfProject;
         }
+        
         private static string GetProjectDescription()
         {
             string description = "";
@@ -96,9 +97,8 @@ namespace Internship_3_OOP1.Classes
 
         public static void DeleteProject()
         {
-            List<ProjectTasks> dummy = new List<ProjectTasks>();
             Console.WriteLine("Unesite ime projekta koji zelite izbrisati");
-            string projectToDelete = GetProjectName();
+            string projectToDelete = GetProjectName(false);
             var project = FunctionalityFunctions.FindProject(projectToDelete);
             if(project == null)
             {
@@ -116,7 +116,70 @@ namespace Internship_3_OOP1.Classes
 
         public static void ShowProjectsByStatus()
         {
+            bool isFound = false;
+            string status = ProjectStatus();
 
+            var activeProjects = Program.projects
+                .Where(project => project.Key.Status.ToString() == status /*Status.ProjectStatus.Active*/);
+            foreach (var project in activeProjects)
+            {
+                if(project.Key != null)
+                    isFound = true;
+                Console.WriteLine($"Projekt: {project.Key.ProjectName}, status: {project.Key.Status}, datum zavrsetka: {project.Key.DateOfEnd}, opis projekta: {project.Key.DescriptionOfProject}");
+            }
+            if(!isFound)
+            {
+                Console.WriteLine($"Projekt sa statusom: {status} nije pronaden");
+            }
+        }
+        private static string ProjectStatus()
+        {
+            //string status = "";
+            while (true)
+            {
+                Console.WriteLine("\ta) Aktivan\n\tb) Zavrsen\n\tc) Na cekanju");
+                char chooseTypeOfProjectStatus = Console.ReadKey().KeyChar;
+                switch (chooseTypeOfProjectStatus)
+                {
+                    case 'a':
+                        return "Active";
+                    case 'b':
+                        return "Finished";
+                    case 'c':
+                        return "Pending";
+                    default:
+                        Console.WriteLine("ne ispravan unos, unesite opet");
+                        break;
+                }
+            }
+        }
+        public static void ProjectManagement()
+        {
+            Console.WriteLine("\n\ta) Ispis svih zadataka unutar odabranog projekta\n\tb) Prikaz detalja odabranog projekta\n\tc) Uređivanje statusa projekta\n\t" +
+                "d) Dodavanje zadatka unutar projekta\n\te) Brisanje zadatka iz projekta\n\tf) Prikaz ukupno očekivanog vremena potrebnog za sve aktivne zadatke u projektu");
+            char option = Console.ReadKey().KeyChar;
+            while(true)
+            {
+                switch(option)
+                {
+                    case 'a':
+                        TaskFunctions.GetPrintAllTasks();
+                        return;
+                    case 'b':
+                        ShowProjectDetails();
+                        return;
+                }
+            }
+        }
+        public static void ShowProjectDetails()
+        {
+            string nameOfProject = GetProjectName(false);
+            var project = FunctionalityFunctions.FindProject(nameOfProject);
+            Console.WriteLine($"Projekt: {project.ProjectName}, opis projekta: {project.DescriptionOfProject}, datum pocetka: {project.DateOfStart}, datum zavrsetka: {project.DateOfEnd}, status: {project.Status}");
+        }
+        public static string getNameOfProject(bool isNewName)
+        {
+            return GetProjectName(isNewName);
         }
     }
 }

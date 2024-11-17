@@ -128,5 +128,31 @@ namespace Internship_3_OOP1.Classes
                 Console.WriteLine("Nije pronaden ni jedan zadatak koji treba biti zavrsen u iducih 7 dana");
 
         }
+        private static void PrintAllTasks()
+        {
+            string nameOfProject = ProjectFunctions.getNameOfProject(false);
+            var project = FunctionalityFunctions.FindProject(nameOfProject);
+            if (project == null)
+            {
+                Console.WriteLine("Nije pronaden projekt s unesenim imenom");
+                return;
+            }
+            var projectTasks = Program.projects[project];
+            bool isFound = false;
+            foreach (var task in projectTasks)
+            {
+                if (task == null)
+                    break;
+                Console.WriteLine($"Zadatak: {task.ProjectName}, rok za zavrsetak: {task.DeadLine}, opis zadatka: {task.DescriptionOfTask}, status zadatka: {task.Status}, ocekivano trajanje: {task.ExpectedTimeToFinih}");
+            }
+            if (!isFound)
+            {
+                Console.WriteLine("Projekt nema zadataka");
+            }
+        }
+        public static void GetPrintAllTasks()
+        {
+            PrintAllTasks();
+        }
     }
 }

@@ -37,6 +37,9 @@ namespace Internship_3_OOP1.Classes
                     case '5':
                         ProjectFunctions.ShowProjectsByStatus();
                         break;
+                    case '6':
+                        ProjectFunctions.ProjectManagement();
+                        break;
                     case '0':
                         return;
                     default:
