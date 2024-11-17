@@ -234,6 +234,19 @@ namespace Internship_3_OOP1.Classes
             var project = FunctionalityFunctions.FindProject(nameOfProject);
             Console.WriteLine($"Projekt: {project.ProjectName}, opis projekta: {project.DescriptionOfProject}, datum pocetka: {project.DateOfStart}, datum zavrsetka: {project.DateOfEnd}, status: {project.Status}");
         }
+        public static void PrintAllProjects()
+        {
+            foreach (var project in Program.projects)
+            {
+                Console.WriteLine($"\nIme projekta: {project.Key.ProjectName}, opis projekta: {project.Key.DescriptionOfProject}, datum pocetka projekta: {project.Key.DateOfStart}, " +
+                    $"datum zavrsetka: {project.Key.DateOfEnd}, status: {project.Key.Status}");
+                foreach (var task in project.Value)
+                {
+                    Console.WriteLine($"\tZadatak: {task.NameOfTask}, opis zadatka: {task.DescriptionOfTask}, ocekivano vrijeme zavrsetka zadatka: {task.ExpectedTimeToFinih}, status zadatka: {task.Status}");
+                }
+                //Console.WriteLine("\n");
+            }
+        }
         public static string getNameOfProject(bool isNewName)
         {
             return GetProjectName(isNewName);

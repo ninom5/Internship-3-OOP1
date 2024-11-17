@@ -23,7 +23,7 @@ namespace Internship_3_OOP1.Classes
                 switch (option)
                 {
                     case '1':
-                        FunctionalityFunctions.PrintAllProjects();
+                        ProjectFunctions.PrintAllProjects();
                         break;
                     case '2':
                         ProjectFunctions.CreateNewProject();
