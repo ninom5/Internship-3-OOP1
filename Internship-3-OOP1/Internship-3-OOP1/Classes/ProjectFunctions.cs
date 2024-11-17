@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -168,8 +169,21 @@ namespace Internship_3_OOP1.Classes
                     case 'b':
                         ShowProjectDetails();
                         return;
+                    case 'c':
+                        EditStatusOfProject();
+                        return;
                 }
             }
+        }
+        public static void EditStatusOfProject()
+        {
+            string nameOfProject = getNameOfProject(false);
+            var project = FunctionalityFunctions.FindProject(nameOfProject);
+            Console.WriteLine($"Trenutni status odabranog projekta({nameOfProject}): {project.Status}" +
+                $"\n\nOdaberite u koji status zelite promijeniti");
+            string newStatus = ProjectStatus();
+            
+            project.Status = newStatus;//ne moze string mora bit enum...Popravit to
         }
         public static void ShowProjectDetails()
         {
