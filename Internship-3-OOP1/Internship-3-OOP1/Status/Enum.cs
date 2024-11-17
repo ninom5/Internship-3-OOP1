@@ -12,8 +12,7 @@ namespace Internship_3_OOP1.Status
         Finished,
         Pending
     }
-
-    public enum TaskStatus
+    public enum StatusTask
     {
         Active,
         Finished,

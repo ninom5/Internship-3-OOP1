@@ -14,16 +14,23 @@ namespace Internship_3_OOP1.Classes
         public string DescriptionOfProject { get; set; }
         public DateOnly DateOfStart { get; set; }
         public DateOnly DateOfEnd { get; set; }
+        private Guid id;
         public ProjectStatus Status; //{ get; set; }
 
+        
         public Project(string name, string description, DateOnly startOfProject, DateOnly endOfProject)//konstruktor
         {
             ProjectName = name;
             DescriptionOfProject = description;
             DateOfStart = startOfProject;
             DateOfEnd = endOfProject;
+            Status = ProjectStatus.Active;
+            id = Guid.NewGuid();
+        }
+
+        public Guid getId()
+        {
+            return id;
         }
     }
-
-    
 }
