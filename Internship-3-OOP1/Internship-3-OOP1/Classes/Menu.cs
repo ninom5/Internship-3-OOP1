@@ -33,6 +33,9 @@ namespace Internship_3_OOP1.Classes
                     case '4':
                         ShowAllTasksDeadLine7();
                         break;
+                    case '5':
+                        ShowProjectsByStatus();
+                        break;
                     case '0':
                         return;
                     default:
@@ -42,7 +45,7 @@ namespace Internship_3_OOP1.Classes
             }while (true);
         }
 
-        public static void ShowAllTasksDeadLine7()
+        public static void ShowProjectsByStatus()
         {
 
         }
@@ -227,6 +230,27 @@ namespace Internship_3_OOP1.Classes
             }
             Program.projects[newProject] = tasks;
             Console.WriteLine("Projekt sa svojim zadacimaa uspjesno kreiran");
+        }
+        public static void ShowAllTasksDeadLine7()
+        {
+            DateOnly dateNow = DateOnly.FromDateTime(DateTime.Now);
+            bool isFound = false;
+            Console.WriteLine("Sljedeci zadaci imaju rok za izvrsavanje u iducih 7 dana");
+            foreach (var project in Program.projects)
+            {
+                foreach (var task in project.Value)
+                {
+                    var difference = (new DateTime(dateNow.Year, dateNow.Month, dateNow.Day) - new DateTime(task.DeadLine.Year, task.DeadLine.Month, task.DeadLine.Day)).Days;
+                    if (difference <= 7 && task.DeadLine <= dateNow.AddDays(7))
+                    {
+                        Console.WriteLine($"Projekt: {project.Key.ProjectName}\n\t zadatak: {task.ProjectName}, rok za zavrsetak: {task.DeadLine}, opis zadatka: {task.DescriptionOfTask}");
+                        isFound = true;
+                    }
+                }
+            }
+            if (!isFound)
+                Console.WriteLine("Nije pronaden ni jedan zadatak koji treba biti zavrsen u iducih 7 dana");
+
         }
         public static bool CheckIfNameExists(string nameOfProjectOrTask, string type, List<ProjectTasks> listOfTasks)
         {
