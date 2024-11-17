@@ -21,9 +21,10 @@ namespace Internship_3_OOP1
             var task1Project2 = new ProjectTasks("zadatak1", "zdk1 bla bla", new DateOnly(2024, 11, 24), 300, project2.ProjectName, project2.getId());
             var task2Project2 = new ProjectTasks("zadatak2", "zadatak2 bla bla", new DateOnly(2025, 02, 04), 150, project2.ProjectName, project2.getId());
             var task3Project2 = new ProjectTasks("zadatak3", "zadatak3 bla bla", new DateOnly(2024, 11, 12), 200, project2.ProjectName, project2.getId(), Status.StatusTask.Finished, Priority.High);
-            var task4roject2 = new ProjectTasks("zadatak4", "zadatak4 bla bla", new DateOnly(2024, 12, 31), 400, project2.ProjectName, project2.getId(), Status.StatusTask.Finished, Priority.Low);
+            var task4Project2 = new ProjectTasks("zadatak4", "zadatak4 bla bla", new DateOnly(2024, 12, 31), 400, project2.ProjectName, project2.getId(), Status.StatusTask.Finished, Priority.Low);
+            
             projects[project1] = new List<ProjectTasks> { task1Project1, task2Project1 };
-            projects[project2] = new List<ProjectTasks> { task1Project2, task2Project2, task3Project2 };
+            projects[project2] = new List<ProjectTasks> { task1Project2, task2Project2, task3Project2, task4Project2 };
             projects[project3] = new List<ProjectTasks> { };
             Menu.MainMenu();
         }

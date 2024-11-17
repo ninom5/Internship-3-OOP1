@@ -144,7 +144,7 @@ namespace Internship_3_OOP1.Classes
                 if(task.NameOfTask == taskToSee)
                 {
                     Console.WriteLine($"Zadatak: {task.NameOfTask}, rok za zavrsetak: {task.DeadLine}, opis zadatka: {task.DescriptionOfTask}, status zadatka: {task.Status}, ocekivano trajanje: " +
-                        $"{task.ExpectedTimeToFinih}, ime projekta kojemu pripada: {task.GetProjectName()}, id projekta: {task.GetGuid()}");
+                        $"{task.ExpectedTimeToFinih}, prioritet: {task.Priority}, ime projekta kojemu pripada: {task.GetProjectName()}, id projekta: {task.GetGuid()}");
                     isFound = true;
                 }
             }
@@ -291,7 +291,7 @@ namespace Internship_3_OOP1.Classes
                 if (task == null)
                     break;
                 isFound = true;
-                Console.WriteLine($"Zadatak: {task.NameOfTask}, rok za zavrsetak: {task.DeadLine}, opis zadatka: {task.DescriptionOfTask}, status zadatka: {task.Status}, ocekivano trajanje: {task.ExpectedTimeToFinih}");
+                Console.WriteLine($"Zadatak: {task.NameOfTask}, rok za zavrsetak: {task.DeadLine}, opis zadatka: {task.DescriptionOfTask}, status zadatka: {task.Status}, ocekivano trajanje: {task.ExpectedTimeToFinih}, prioritet: {task.Priority}");
             }
             if (!isFound)
             {

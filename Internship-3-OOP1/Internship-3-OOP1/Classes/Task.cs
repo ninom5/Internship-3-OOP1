@@ -16,7 +16,7 @@ namespace Internship_3_OOP1.Classes
         private string ProjectName{ get; set; }
         public StatusTask Status;
         private Guid ProjectId { get; set; }
-        private Priority Priority { get; set; }
+        public Priority Priority;
         public string GetProjectName ()
         {
             return ProjectName;

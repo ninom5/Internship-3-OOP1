@@ -76,10 +76,10 @@ namespace Internship_3_OOP1.Classes
                 Console.WriteLine("nema zadataka");
                 return;
             }
-            Console.WriteLine("Zadaci sortirani po ocekivanom trajanju od najkraceg do najduzeg");
+            Console.WriteLine("Zadaci sortirani zeljenom kriteriju");
             foreach (var task in sortedList)
             {
-                Console.WriteLine($"Zadatak: {task.NameOfTask}, ocekivano trajanje: {task.ExpectedTimeToFinih}, rok za zavrsetak: {task.DeadLine}, opis zadatka: {task.DescriptionOfTask}, " +
+                Console.WriteLine($"Zadatak: {task.NameOfTask}, ocekivano trajanje: {task.ExpectedTimeToFinih}, prioritet: {task.Priority}, rok za zavrsetak: {task.DeadLine}, opis zadatka: {task.DescriptionOfTask}, " +
                     $"status zadatka: {task.Status}");
             }
         }

@@ -46,6 +46,9 @@ namespace Internship_3_OOP1.Classes
                     case '8':
                         BonusTasks.ShortToLong();
                         break;
+                    case '9':
+                        BonusTasks.PrintSortedByPriority();
+                        break;
                     case '0':
                         return;
                     default:

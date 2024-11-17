@@ -27,5 +27,23 @@ namespace Internship_3_OOP1.Classes
                 .OrderBy(expextedTime => expextedTime.ExpectedTimeToFinih).ToList();
             FunctionalityFunctions.GetPrinted(sortedTasks);
         }
+        public static void PrintSortedByPriority()
+        {
+            string projectName = ProjectFunctions.getNameOfProject(false);
+            var project = FunctionalityFunctions.FindProject(projectName);
+            if (project == null)
+            {
+                Console.WriteLine("Ne postoji projekt s unesenim imenom");
+                return;
+            }
+            SortTasksByPriority(projectName, project);
+        }
+        private static void SortTasksByPriority(string projectName, Project project)
+        {
+            var taskList = Program.projects[project];
+            var sortedTasks = taskList
+                .OrderBy(priority => priority.Priority).ToList();
+            FunctionalityFunctions.GetPrinted(sortedTasks);
+        }
     }
 }
