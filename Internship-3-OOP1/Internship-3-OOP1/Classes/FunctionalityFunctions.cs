@@ -52,7 +52,7 @@ namespace Internship_3_OOP1.Classes
             Console.WriteLine("Zelite li to stvarno izbrisati. y/n");
             return Console.ReadKey().KeyChar;
         }
-        public static char getChar()
+        public static char getCharConfirmation()
             { return Confirmation(); }
         public static Project FindProject(string projectToFind)
         {
@@ -64,6 +64,24 @@ namespace Internship_3_OOP1.Classes
                 }
             }
             return null;
+        }
+        public static void GetPrinted(List<ProjectTasks> sortedList)
+        {
+            PrintSortedTasks(sortedList);
+        }
+        private static void PrintSortedTasks(List<ProjectTasks> sortedList)
+        {
+            if(!sortedList.Any())
+            {
+                Console.WriteLine("nema zadataka");
+                return;
+            }
+            Console.WriteLine("Zadaci sortirani po ocekivanom trajanju od najkraceg do najduzeg");
+            foreach (var task in sortedList)
+            {
+                Console.WriteLine($"Zadatak: {task.NameOfTask}, ocekivano trajanje: {task.ExpectedTimeToFinih}, rok za zavrsetak: {task.DeadLine}, opis zadatka: {task.DescriptionOfTask}, " +
+                    $"status zadatka: {task.Status}");
+            }
         }
     }
 }

@@ -13,9 +13,29 @@ namespace Internship_3_OOP1.Classes
         public string DescriptionOfTask { get; set; }
         public DateOnly DeadLine { get; set; }
         public int ExpectedTimeToFinih {  get; set; }
-        public string ProjectName{ get; set; }
+        private string ProjectName{ get; set; }
         public StatusTask Status;
-        public Guid ProjectId { get; set; }
+        private Guid ProjectId { get; set; }
+        private Priority Priority { get; set; }
+        public string GetProjectName ()
+        {
+            return ProjectName;
+        }
+        public Guid GetGuid()
+        {
+            return Guid.NewGuid();
+        }
+        public ProjectTasks(string nameOfTask, string description, DateOnly deadLine, int expectedTimeToFinish, string projectName, Guid id, Status.StatusTask status, Priority priority)
+        {
+            NameOfTask = nameOfTask;
+            DescriptionOfTask = description;
+            DeadLine = deadLine;
+            ExpectedTimeToFinih = expectedTimeToFinish;
+            ProjectName = projectName;
+            ProjectId = id;
+            Status = status;
+            Priority = priority;
+        }
         public ProjectTasks(string nameOfTask, string description, DateOnly deadLine, int expectedTimeToFinish, string projectName, Guid id) 
         {
             NameOfTask = nameOfTask;
@@ -25,6 +45,7 @@ namespace Internship_3_OOP1.Classes
             ProjectName = projectName;
             ProjectId = id;
             Status = StatusTask.Active;
+            Priority = Priority.Normal;
         }
     }
 }

@@ -106,7 +106,7 @@ namespace Internship_3_OOP1.Classes
                 Console.WriteLine("Ne postoji projekt s unesenim imenom");
                 return;
             }
-            if(FunctionalityFunctions.getChar() == 'y')
+            if(FunctionalityFunctions.getCharConfirmation() == 'y')
             {
                 Program.projects.Remove(project);
                 Console.WriteLine("Projekt uspjesno izbrisan");
@@ -156,12 +156,12 @@ namespace Internship_3_OOP1.Classes
         }
         public static void ProjectManagement()
         {
-            Console.WriteLine("\n\ta) Ispis svih zadataka unutar odabranog projekta\n\tb) Prikaz detalja odabranog projekta\n\tc) Uređivanje statusa projekta\n\t" +
-                "d) Dodavanje zadatka unutar projekta\n\te) Brisanje zadatka iz projekta\n\tf) Prikaz ukupno očekivanog vremena potrebnog za sve aktivne zadatke u projektu");
-            char option = Console.ReadKey().KeyChar;
             while(true)
             {
-                switch(option)
+                Console.WriteLine("\n\ta) Ispis svih zadataka unutar odabranog projekta\n\tb) Prikaz detalja odabranog projekta\n\tc) Uređivanje statusa projekta\n\t" +
+                "d) Dodavanje zadatka unutar projekta\n\te) Brisanje zadatka iz projekta\n\tf) Prikaz ukupno očekivanog vremena potrebnog za sve aktivne zadatke u projektu");
+                char option = Console.ReadKey().KeyChar;
+                switch (option)
                 {
                     case 'a':
                         TaskFunctions.GetPrintAllTasks();
@@ -172,18 +172,61 @@ namespace Internship_3_OOP1.Classes
                     case 'c':
                         EditStatusOfProject();
                         return;
+                    case 'd':
+                        ChooseProject();
+                        return;
+                    case 'e':
+                        TaskFunctions.DeleteTasksFromProjects();
+                        return;
+                    case 'f':
+                        TaskFunctions.SumExpectedTime();
+                        return;
+                    default:
+                        Console.WriteLine("krivi unos, unesite opet");
+                        break;
                 }
             }
+        }
+        public static void ChooseProject()
+        {
+            Console.WriteLine("unesite ime projekta u koji zelite dodati zadatke");
+            string nameOfProject = GetProjectName(false);
+            var project = FunctionalityFunctions.FindProject(nameOfProject);
+            if(project == null)
+            {
+                Console.WriteLine("ne postoji projekt s unesenim imenom");
+                return;
+            }
+            string statusOfCurrentProject = CheckStatus(project);
+            if(statusOfCurrentProject == "Finished")
+            {
+                Console.WriteLine("zavrseni projekt se ne moze uredivati, niti dodavati zadatke");
+                return;
+            }
+            TaskFunctions.CreateTask(project);
+        }
+        private static string CheckStatus(Project project)
+        {
+            return project.Status.ToString();
         }
         public static void EditStatusOfProject()
         {
             string nameOfProject = getNameOfProject(false);
             var project = FunctionalityFunctions.FindProject(nameOfProject);
+            if(project == null)
+            {
+                Console.WriteLine("uneseni projekt ne postoji");
+                return; 
+            }
             Console.WriteLine($"Trenutni status odabranog projekta({nameOfProject}): {project.Status}" +
                 $"\n\nOdaberite u koji status zelite promijeniti");
             string newStatus = ProjectStatus();
-            
-            project.Status = newStatus;//ne moze string mora bit enum...Popravit to
+            if (newStatus == "Pending")
+                project.Status = Status.ProjectStatus.Pending;
+            else if (newStatus == "Finished")
+                project.Status = Status.ProjectStatus.Finished;
+            else
+                project.Status = Status.ProjectStatus.Active;
         }
         public static void ShowProjectDetails()
         {

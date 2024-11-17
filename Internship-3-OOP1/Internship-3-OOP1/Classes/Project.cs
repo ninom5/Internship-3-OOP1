@@ -17,7 +17,15 @@ namespace Internship_3_OOP1.Classes
         private Guid id;
         public ProjectStatus Status; //{ get; set; }
 
-        
+        public Project(string name, string description, DateOnly startOfProject, DateOnly endOfProject, Status.ProjectStatus status)//konstruktor
+        {
+            ProjectName = name;
+            DescriptionOfProject = description;
+            DateOfStart = startOfProject;
+            DateOfEnd = endOfProject;
+            Status = status;
+            id = Guid.NewGuid();
+        }
         public Project(string name, string description, DateOnly startOfProject, DateOnly endOfProject)//konstruktor
         {
             ProjectName = name;

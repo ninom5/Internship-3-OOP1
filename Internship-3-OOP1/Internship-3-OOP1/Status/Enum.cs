@@ -18,4 +18,10 @@ namespace Internship_3_OOP1.Status
         Finished,
         Delayed
     }
+    public enum Priority
+    {
+        Normal,
+        Low,
+        High
+    }
 }
