@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,7 +13,7 @@ namespace Internship_3_OOP1.Classes
         {
             do
             {
-                Console.WriteLine("1 - Ispis svih projekata s pripadajućim zadacima\n2 - Dodavanje novog projekta\n3 - Brisanje projekta\n4 - Prikaz svih zadataka s rokom u sljedećih 7 dana\n" +
+                Console.WriteLine("\n1 - Ispis svih projekata s pripadajućim zadacima\n2 - Dodavanje novog projekta\n3 - Brisanje projekta\n4 - Prikaz svih zadataka s rokom u sljedećih 7 dana\n" +
                     "5 - Prikaz  projekata filtriranih po status\n\ta) aktivni\n\tb) završeni\n\tc) na čekanju\n6 - Upravljanje pojedinim projektom\n\ta) Ispis svih zadataka unutar odabranog projekta\n\tb) " +
                     "Prikaz detalja odabranog projekta\n\tc) Uređivanje statusa projekta\n\td) Dodavanje zadatka unutar projekta\n\te) Brisanje zadatka iz projekta\n\t" +
                     "f) Prikaz ukupno očekivanog vremena potrebnog za sve aktivne zadatke u projektu\n7 - Upravljanje pojedinim zadatkom\n\ta) Prikaz detalja odabranog zadatka\n\tb) Uređivanje statusa zadatka" +
@@ -26,6 +27,12 @@ namespace Internship_3_OOP1.Classes
                     case '2':
                         CreateNewProject();
                         break;
+                    case '3':
+                        DeleteProject();
+                        break;
+                    case '4':
+                        ShowAllTasksDeadLine7();
+                        break;
                     case '0':
                         return;
                     default:
@@ -35,19 +42,61 @@ namespace Internship_3_OOP1.Classes
             }while (true);
         }
 
-        public static void PrintAllProjects()
+        public static void ShowAllTasksDeadLine7()
         {
-            foreach(var project in Program.projects)
+
+        }
+        public static void DeleteProject()
+        {
+            List<ProjectTasks> dummy = new List<ProjectTasks>();
+            Console.WriteLine("Unesite ime projekta koji zelite izbrisati");
+            var projectToDelete = Console.ReadLine();
+            while (true)
             {
-                Console.WriteLine($"\nIme projekta: {project.Key.ProjectName}, opis projekta: {project.Key.DescriptionOfProject}, datum pocetka projekta: {project.Key.DateOfStart}, " +
-                    $"datum zavrsetka: {project.Key.DateOfEnd}, status: {project.Key.Status}");
-                foreach(var task in project.Value)
+                if (string.IsNullOrEmpty(projectToDelete))
                 {
-                    Console.WriteLine($"\tZadatak: {task.NameOfTask}, opis zadatka: {task.DescriptionOfTask}, ocekivano vrijeme zavrsetka zadatka: {task.ExpectedTimeToFinih}, status zadatka: {task.Status}");
+                    Console.WriteLine("krivi unos, unesite opet");
+                    continue;
                 }
-                Console.WriteLine("\n");
+                if (!CheckIfNameExists(projectToDelete, "projekt", dummy))
+                {
+                    Console.WriteLine("ne postoji projekt s unesenim imenom, unesite opet");
+                    continue;
+                }
+                //var toDelete = Program.projects
+                //    .Where(project => project.Key.ProjectName == projectToDelete);
+                //    .FirstOrDefault...
+                //Program.projects.Remove(toDelete);
+                var allProject = Program.projects;
+                foreach (var project in allProject.Keys)
+                {
+                    if (projectToDelete == project.ProjectName)
+                    {
+                        while (true)
+                        {
+                            char confirm = Confirmation();
+                            if (confirm == 'y')
+                            {
+                                var projectToErase = project;
+                                allProject.Remove(projectToErase);
+                                Console.WriteLine($"Projekt: {projectToErase.ProjectName} uspjesno izbrisan");
+                                break;
+                            }
+                            else if(confirm == 'n')
+                            {
+                                Console.WriteLine("odustali ste od brisanja projekta");
+                                return;
+                            }
+                            else
+                            {
+                                Console.WriteLine("ne ispravan unos, unesite opet");
+                            }
+                        }
+                    }
+                }
             }
         }
+        
         public static void CreateNewProject()
         {
             List<ProjectTasks> dummy = new List<ProjectTasks>();
@@ -106,6 +155,8 @@ namespace Internship_3_OOP1.Classes
                 Console.WriteLine("Datum kraja ne moze biti prije datuma pocetka, unesite opet");
             }
             var newProject = new Project(nameOfProject, description, dateOfStart, dateOfEnd);
+            Console.WriteLine("Projekt uspjesno kreiran");
+
             CreateTask(newProject);
         }
         public static void CreateTask(Project newProject)
@@ -157,9 +208,9 @@ namespace Internship_3_OOP1.Classes
                 while(true)
                 {
                     var date = Console.ReadLine();
-                    if (DateOnly.TryParse(date, out deadlineDate) && deadlineDate <= newProject.DateOfEnd)
+                    if (DateOnly.TryParse(date, out deadlineDate) && deadlineDate <= newProject.DateOfEnd && deadlineDate >= newProject.DateOfStart)
                         break;
-                    Console.WriteLine("unesen neispravan format datuma ili ste unijeli datum za zavrsetak zadatka nakon planiranog datuma zavrsetka projekta, unseite opet");
+                    Console.WriteLine("unesen neispravan format datuma ili ste unijeli datum za zavrsetak zadatka nakon planiranog datuma zavrsetka projekta ili prije pocetka projekta, unseite opet");
                 }
                 Console.WriteLine("Unesite koliko minuta je potrebno za zavrsiti zadatak");
                 int timeToFinish;
@@ -172,8 +223,10 @@ namespace Internship_3_OOP1.Classes
                 }
                 var newTask = new ProjectTasks(nameOfTask, descriptionOfTask, deadlineDate, timeToFinish, newProject.ProjectName, newProject.getId());
                 tasks.Add(newTask);
+                Console.WriteLine("Zadatak uspjesno kreiran i dodan u listu zadataka");
             }
             Program.projects[newProject] = tasks;
+            Console.WriteLine("Projekt sa svojim zadacimaa uspjesno kreiran");
         }
         public static bool CheckIfNameExists(string nameOfProjectOrTask, string type, List<ProjectTasks> listOfTasks)
         {
@@ -200,6 +253,24 @@ namespace Internship_3_OOP1.Classes
                 Console.WriteLine("pogreska pokrenite ponovo program");
                 return false;
             }
+        }
+        public static void PrintAllProjects()
+        {
+            foreach (var project in Program.projects)
+            {
+                Console.WriteLine($"\nIme projekta: {project.Key.ProjectName}, opis projekta: {project.Key.DescriptionOfProject}, datum pocetka projekta: {project.Key.DateOfStart}, " +
+                    $"datum zavrsetka: {project.Key.DateOfEnd}, status: {project.Key.Status}");
+                foreach (var task in project.Value)
+                {
+                    Console.WriteLine($"\tZadatak: {task.NameOfTask}, opis zadatka: {task.DescriptionOfTask}, ocekivano vrijeme zavrsetka zadatka: {task.ExpectedTimeToFinih}, status zadatka: {task.Status}");
+                }
+                //Console.WriteLine("\n");
+            }
+        }
+        private static char Confirmation()
+        {
+            Console.WriteLine("Zelite li to stvarno izbrisati. y/n");
+            return Console.ReadKey().KeyChar;
         }
     }
 }
