@@ -29,13 +29,13 @@ namespace Internship_3_OOP1.Classes
                         ProjectFunctions.CreateNewProject();
                         break;
                     case '3':
-                        DeleteProject();
+                        ProjectFunctions.DeleteProject();
                         break;
                     case '4':
-                        ShowAllTasksDeadLine7();
+                        TaskFunctions.ShowAllTasksDeadLine7();
                         break;
                     case '5':
-                        ShowProjectsByStatus();
+                        ProjectFunctions.ShowProjectsByStatus();
                         break;
                     case '0':
                         return;
@@ -43,88 +43,7 @@ namespace Internship_3_OOP1.Classes
                         Console.WriteLine("neispravan unos, unesite opet");
                         break;
                 }
-            }while (true);
+            } while (true);
         }
-
-        public static void ShowProjectsByStatus()
-        {
-
-        }
-        public static void DeleteProject()
-        {
-            List<ProjectTasks> dummy = new List<ProjectTasks>();
-            Console.WriteLine("Unesite ime projekta koji zelite izbrisati");
-            var projectToDelete = Console.ReadLine();
-            while (true)
-            {
-                if (string.IsNullOrEmpty(projectToDelete))
-                {
-                    Console.WriteLine("krivi unos, unesite opet");
-                    continue;
-                }
-                if (!FunctionalityFunctions.CheckIfNameExists(projectToDelete, "projekt", dummy))
-                {
-                    Console.WriteLine("ne postoji projekt s unesenim imenom, unesite opet");
-                    continue;
-                }
-                //var toDelete = Program.projects
-                //    .Where(project => project.Key.ProjectName == projectToDelete);
-                //    .FirstOrDefault...
-                //Program.projects.Remove(toDelete);
-                var allProject = Program.projects;
-                foreach (var project in allProject.Keys)
-                {
-                    if (projectToDelete == project.ProjectName)
-                    {
-                        while (true)
-                        {
-                            char confirm = FunctionalityFunctions.getChar();
-                            if (confirm == 'y')
-                            {
-                                var projectToErase = project;
-                                allProject.Remove(projectToErase);
-                                Console.WriteLine($"Projekt: {projectToErase.ProjectName} uspjesno izbrisan");
-                                break;
-                            }
-                            else if(confirm == 'n')
-                            {
-                                Console.WriteLine("odustali ste od brisanja projekta");
-                                return;
-                            }
-                            else
-                            {
-                                Console.WriteLine("ne ispravan unos, unesite opet");
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        
-       
-       
-        public static void ShowAllTasksDeadLine7()
-        {
-            DateOnly dateNow = DateOnly.FromDateTime(DateTime.Now);
-            bool isFound = false;
-            Console.WriteLine("Sljedeci zadaci imaju rok za izvrsavanje u iducih 7 dana");
-            foreach (var project in Program.projects)
-            {
-                foreach (var task in project.Value)
-                {
-                    var difference = (new DateTime(dateNow.Year, dateNow.Month, dateNow.Day) - new DateTime(task.DeadLine.Year, task.DeadLine.Month, task.DeadLine.Day)).Days;
-                    if (difference <= 7 && task.DeadLine <= dateNow.AddDays(7))
-                    {
-                        Console.WriteLine($"Projekt: {project.Key.ProjectName}\n\t zadatak: {task.ProjectName}, rok za zavrsetak: {task.DeadLine}, opis zadatka: {task.DescriptionOfTask}");
-                        isFound = true;
-                    }
-                }
-            }
-            if (!isFound)
-                Console.WriteLine("Nije pronaden ni jedan zadatak koji treba biti zavrsen u iducih 7 dana");
-
-        }
-        
-        
     }
 }

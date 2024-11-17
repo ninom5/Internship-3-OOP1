@@ -54,5 +54,16 @@ namespace Internship_3_OOP1.Classes
         }
         public static char getChar()
             { return Confirmation(); }
+        public static Project FindProject(string projectToDelete)
+        {
+            foreach (var project in Program.projects.Keys)
+            {
+                if (project.ProjectName == projectToDelete)
+                {
+                    return project;
+                }
+            }
+            return null;
+        }
     }
 }

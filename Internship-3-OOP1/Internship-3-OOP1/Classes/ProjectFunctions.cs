@@ -6,13 +6,30 @@ using System.Threading.Tasks;
 
 namespace Internship_3_OOP1.Classes
 {
-    
     public class ProjectFunctions
     {
         public static void CreateNewProject()
         {
-            List<ProjectTasks> dummy = new List<ProjectTasks>();
             Console.WriteLine("Prvo unosite podatke o projektu te potom zadatke i podatke o njima");
+            string nameOfProject = GetProjectName();
+
+            Console.WriteLine("Unesite opis projekta");
+            string description = GetProjectDescription();
+
+            Console.WriteLine("unesite datum pocetka projekta u formatu dd/MM/yyyy: ");
+            DateOnly dateOfStart = GetDateOfStart();
+
+            Console.WriteLine("unesite datum kraja projekta u formatu dd/MM/yyyy: ");
+            DateOnly dateOfEnd = GetDateOfEnd(dateOfStart);
+            
+            var newProject = new Project(nameOfProject, description, dateOfStart, dateOfEnd);
+            Console.WriteLine("Projekt uspjesno kreiran");
+
+            TaskFunctions.CreateTask(newProject);
+        }
+        private static string GetProjectName()
+        {
+            List<ProjectTasks> dummy = new List<ProjectTasks>();
             string nameOfProject;
             while (true)
             {
@@ -30,8 +47,10 @@ namespace Internship_3_OOP1.Classes
                 }
                 break;
             }
-
-            Console.WriteLine("Unesite opis projekta");
+            return nameOfProject;
+        }
+        private static string GetProjectDescription()
+        {
             string description = "";
             while (true)
             {
@@ -41,7 +60,10 @@ namespace Internship_3_OOP1.Classes
 
                 Console.WriteLine("Opis projekta ne moze biti prazno. Unesite opet");
             }
-            Console.WriteLine("unesite datum pocetka projekta u formatu dd/MM/yyyy: ");
+            return description;
+        }
+        private static DateOnly GetDateOfStart()
+        {
             DateOnly dateOfStart;
             while (true)
             {
@@ -50,7 +72,10 @@ namespace Internship_3_OOP1.Classes
                     break;
                 Console.WriteLine("unesen neispravan format datuma, unseite opet");
             }
-            Console.WriteLine("unesite datum kraja projekta u formatu dd/MM/yyyy: ");
+            return dateOfStart;
+        }
+        private static DateOnly GetDateOfEnd(DateOnly dateOfStart)
+        {
             DateOnly dateOfEnd;
             while (true)
             {
@@ -66,10 +91,32 @@ namespace Internship_3_OOP1.Classes
 
                 Console.WriteLine("Datum kraja ne moze biti prije datuma pocetka, unesite opet");
             }
-            var newProject = new Project(nameOfProject, description, dateOfStart, dateOfEnd);
-            Console.WriteLine("Projekt uspjesno kreiran");
+            return dateOfEnd;
+        }
 
-            TaskFunctions.CreateTask(newProject);
+        public static void DeleteProject()
+        {
+            List<ProjectTasks> dummy = new List<ProjectTasks>();
+            Console.WriteLine("Unesite ime projekta koji zelite izbrisati");
+            string projectToDelete = GetProjectName();
+            var project = FunctionalityFunctions.FindProject(projectToDelete);
+            if(project == null)
+            {
+                Console.WriteLine("Ne postoji projekt s unesenim imenom");
+                return;
+            }
+            if(FunctionalityFunctions.getChar() == 'y')
+            {
+                Program.projects.Remove(project);
+                Console.WriteLine("Projekt uspjesno izbrisan");
+            }
+            else
+                Console.WriteLine("Odustali ste od brisanja projekta");
+        }
+
+        public static void ShowProjectsByStatus()
+        {
+
         }
     }
 }
