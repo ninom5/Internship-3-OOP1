@@ -37,7 +37,9 @@ namespace Internship_3_OOP1.Classes
                 Console.WriteLine("Ne postoji projekt s tim imenom");
                 return;
             }
+
             var listOfTasks = Program.projects[project];
+
             Console.WriteLine("unesite ime zadatka kod kojeg zelite promijeniti status");
             var nameOfTask = Console.ReadLine();
             if (string.IsNullOrEmpty(nameOfTask))
@@ -46,17 +48,20 @@ namespace Internship_3_OOP1.Classes
                 EditTaskStatus();
                 return;
             }
+
             ChangeStatusOfTask(nameOfTask, listOfTasks);
             CheckIfAllTasksAreFinished(project);
         }
         private static void CheckIfAllTasksAreFinished(Project project)
         {
             var listOfTasks = Program.projects[project];
+
             foreach (var task in listOfTasks)
             {
                 if(task.Status != Status.StatusTask.Finished)
                     return;
             }
+
             project.Status = Status.ProjectStatus.Finished;
             Console.WriteLine("\nSvi zadaci zavrseni => projekt postavljen na zavrsen");
         }
@@ -74,6 +79,7 @@ namespace Internship_3_OOP1.Classes
                     isFound = true;
                 }
             }
+
             if (!isFound)
             {
                 Console.WriteLine("Zadatak nije pronaden");
@@ -95,6 +101,7 @@ namespace Internship_3_OOP1.Classes
             {
                 Console.WriteLine("\ta) Aktivan\n\tb) Zavrsen\n\tc) Na cekanju");
                 char chooseTypeOfProjectStatus = Console.ReadKey().KeyChar;
+
                 switch (chooseTypeOfProjectStatus)
                 {
                     case 'a':
@@ -111,13 +118,6 @@ namespace Internship_3_OOP1.Classes
         }
         public static void ShowDetailsOfTask()
         {
-            //string projectName = ProjectFunctions.getNameOfProject(false);
-            //var foundProject = FunctionalityFunctions.FindProject(projectName);
-            //if(foundProject == null)
-            //{
-            //    Console.WriteLine("projekt s odabranim imenom nije pronaden");
-            //    return;
-            //}
             string projectName = PrintAllTasks();
             if (string.IsNullOrEmpty(projectName))
                 return;
@@ -168,6 +168,7 @@ namespace Internship_3_OOP1.Classes
                 CreateTask(newProject);
                 return;
             }
+
             for (int i = 1; i <= taskNumber; i++)
             {
                 Console.WriteLine($"Unesite ime {i}.zadatka, ime ne smije biti prazno");
@@ -195,6 +196,7 @@ namespace Internship_3_OOP1.Classes
             {
                 var taskNumber = Console.ReadLine();
                 int numOfTasks;
+
                 if (!int.TryParse(taskNumber, out numOfTasks))
                 {
                     Console.WriteLine("Unesite isparavan broj zadataka");
@@ -207,6 +209,7 @@ namespace Internship_3_OOP1.Classes
         {
             List<ProjectTasks> tasks = new List<ProjectTasks>();
             string nameOfTask = "";
+
             while (true)
             {
                 nameOfTask = Console.ReadLine();
@@ -214,6 +217,7 @@ namespace Internship_3_OOP1.Classes
                 {
                     if (!FunctionalityFunctions.CheckIfNameExists(nameOfTask, "zadatak", tasks))
                         return nameOfTask;
+
                     Console.WriteLine("Zadatak s istim imenom u ovom projektu vec postoji. Uneiste opet ime");
                     continue;
                 }
@@ -228,6 +232,7 @@ namespace Internship_3_OOP1.Classes
                 descriptionOfTask = Console.ReadLine();
                 if (!string.IsNullOrEmpty(descriptionOfTask))
                     return descriptionOfTask;
+
                 Console.WriteLine("opis ne moze biti prazan, unesite opet");
             }
         }
@@ -239,6 +244,7 @@ namespace Internship_3_OOP1.Classes
                 var date = Console.ReadLine();
                 if (DateOnly.TryParse(date, out deadlineDate) && deadlineDate <= newProject.DateOfEnd && deadlineDate >= newProject.DateOfStart)
                     return deadlineDate;
+
                 Console.WriteLine("unesen neispravan format datuma ili ste unijeli datum za zavrsetak zadatka nakon planiranog datuma zavrsetka projekta ili prije pocetka projekta, unseite opet");
             }
         }
@@ -250,6 +256,7 @@ namespace Internship_3_OOP1.Classes
                 var time = Console.ReadLine();
                 if (int.TryParse(time, out timeToFinish))
                     return timeToFinish;
+
                 Console.WriteLine("krivi unos, unesite broj minuta");
             }
         }
@@ -271,9 +278,9 @@ namespace Internship_3_OOP1.Classes
                     }
                 }
             }
+
             if (!isFound)
                 Console.WriteLine("Nije pronaden ni jedan zadatak koji treba biti zavrsen u iducih 7 dana");
-
         }
         private static string PrintAllTasks()
         {
@@ -284,6 +291,7 @@ namespace Internship_3_OOP1.Classes
                 Console.WriteLine("Nije pronaden projekt s unesenim imenom");
                 return "";
             }
+
             var projectTasks = Program.projects[project];
             bool isFound = false;
             foreach (var task in projectTasks)
@@ -293,10 +301,12 @@ namespace Internship_3_OOP1.Classes
                 isFound = true;
                 Console.WriteLine($"Zadatak: {task.NameOfTask}, rok za zavrsetak: {task.DeadLine}, opis zadatka: {task.DescriptionOfTask}, status zadatka: {task.Status}, ocekivano trajanje: {task.ExpectedTimeToFinih}, prioritet: {task.Priority}");
             }
+
             if (!isFound)
             {
                 Console.WriteLine("Projekt nema zadataka");
             }
+
             return nameOfProject;
         }
         public static void GetPrintAllTasks()
@@ -335,6 +345,7 @@ namespace Internship_3_OOP1.Classes
         {
             var projectTasks = Program.projects[project];
             bool isFound = false;
+
             foreach (var task in projectTasks)
             {
                 if (task.NameOfTask == taskToFind)
@@ -365,6 +376,7 @@ namespace Internship_3_OOP1.Classes
             double sumOfMinutes = 0;
             string nameOfProject = ProjectFunctions.getNameOfProject(false);
             var project = FunctionalityFunctions.FindProject(nameOfProject);
+
             if(project == null)
             {
                 Console.WriteLine("Projekt nije pronaden");

@@ -40,8 +40,10 @@ namespace Internship_3_OOP1.Classes
             Console.WriteLine("Zelite li to stvarno izbrisati. y/n");
             return Console.ReadKey().KeyChar;
         }
+
         public static char getCharConfirmation()
             { return Confirmation(); }
+
         public static Project FindProject(string projectToFind)
         {
             foreach (var project in Program.projects.Keys)
@@ -53,6 +55,7 @@ namespace Internship_3_OOP1.Classes
             }
             return null;
         }
+
         public static void GetPrinted(List<ProjectTasks> sortedList)
         {
             PrintSortedTasks(sortedList);

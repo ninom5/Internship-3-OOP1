@@ -36,6 +36,17 @@ namespace Internship_3_OOP1.Classes
             Status = status;
             Priority = priority;
         }
+        public ProjectTasks(string nameOfTask, string description, DateOnly deadLine, int expectedTimeToFinish, string projectName, Guid id, Status.StatusTask status)
+        {
+            NameOfTask = nameOfTask;
+            DescriptionOfTask = description;
+            DeadLine = deadLine;
+            ExpectedTimeToFinih = expectedTimeToFinish;
+            ProjectName = projectName;
+            ProjectId = id;
+            Status = status;
+            Priority = Priority.Normal;
+        }
         public ProjectTasks(string nameOfTask, string description, DateOnly deadLine, int expectedTimeToFinish, string projectName, Guid id) 
         {
             NameOfTask = nameOfTask;

@@ -46,9 +46,8 @@ namespace Internship_3_OOP1.Classes
                     Console.WriteLine("Već postoji projekt s istim imenom molimo odaberite novo ime");
                     continue;
                 }
-                break;
+                return nameOfProject;
             }
-            return nameOfProject;
         }
         
         private static string GetProjectDescription()
@@ -58,11 +57,10 @@ namespace Internship_3_OOP1.Classes
             {
                 description = Console.ReadLine();
                 if (!string.IsNullOrEmpty(description))
-                    break;
+                    return description;
 
                 Console.WriteLine("Opis projekta ne moze biti prazno. Unesite opet");
             }
-            return description;
         }
         private static DateOnly GetDateOfStart()
         {
@@ -71,10 +69,9 @@ namespace Internship_3_OOP1.Classes
             {
                 var date = Console.ReadLine();
                 if (DateOnly.TryParse(date, out dateOfStart))
-                    break;
+                    return dateOfStart;
                 Console.WriteLine("unesen neispravan format datuma, unseite opet");
             }
-            return dateOfStart;
         }
         private static DateOnly GetDateOfEnd(DateOnly dateOfStart)
         {
@@ -89,16 +86,16 @@ namespace Internship_3_OOP1.Classes
                 }
 
                 if (dateOfEnd >= dateOfStart)
-                    break;
+                    return dateOfEnd;
 
                 Console.WriteLine("Datum kraja ne moze biti prije datuma pocetka, unesite opet");
             }
-            return dateOfEnd;
         }
 
         public static void DeleteProject()
         {
             Console.WriteLine("Unesite ime projekta koji zelite izbrisati");
+
             string projectToDelete = GetProjectName(false);
             var project = FunctionalityFunctions.FindProject(projectToDelete);
             if(project == null)
@@ -106,6 +103,7 @@ namespace Internship_3_OOP1.Classes
                 Console.WriteLine("Ne postoji projekt s unesenim imenom");
                 return;
             }
+
             if(FunctionalityFunctions.getCharConfirmation() == 'y')
             {
                 Program.projects.Remove(project);
@@ -122,6 +120,7 @@ namespace Internship_3_OOP1.Classes
 
             var activeProjects = Program.projects
                 .Where(project => project.Key.Status.ToString() == status /*Status.ProjectStatus.Active*/);
+
             foreach (var project in activeProjects)
             {
                 if(project.Key != null)
@@ -135,11 +134,11 @@ namespace Internship_3_OOP1.Classes
         }
         private static string ProjectStatus()
         {
-            //string status = "";
             while (true)
             {
                 Console.WriteLine("\ta) Aktivan\n\tb) Zavrsen\n\tc) Na cekanju");
                 char chooseTypeOfProjectStatus = Console.ReadKey().KeyChar;
+
                 switch (chooseTypeOfProjectStatus)
                 {
                     case 'a':
@@ -190,6 +189,7 @@ namespace Internship_3_OOP1.Classes
         public static void ChooseProject()
         {
             Console.WriteLine("unesite ime projekta u koji zelite dodati zadatke");
+
             string nameOfProject = GetProjectName(false);
             var project = FunctionalityFunctions.FindProject(nameOfProject);
             if(project == null)
@@ -197,14 +197,17 @@ namespace Internship_3_OOP1.Classes
                 Console.WriteLine("ne postoji projekt s unesenim imenom");
                 return;
             }
+
             string statusOfCurrentProject = CheckStatus(project);
             if(statusOfCurrentProject == "Finished")
             {
                 Console.WriteLine("zavrseni projekt se ne moze uredivati, niti dodavati zadatke");
                 return;
             }
+
             TaskFunctions.CreateTask(project);
         }
+
         private static string CheckStatus(Project project)
         {
             return project.Status.ToString();
@@ -218,6 +221,7 @@ namespace Internship_3_OOP1.Classes
                 Console.WriteLine("uneseni projekt ne postoji");
                 return; 
             }
+
             Console.WriteLine($"Trenutni status odabranog projekta({nameOfProject}): {project.Status}" +
                 $"\n\nOdaberite u koji status zelite promijeniti");
             string newStatus = ProjectStatus();
@@ -228,10 +232,12 @@ namespace Internship_3_OOP1.Classes
             else
                 project.Status = Status.ProjectStatus.Active;
         }
+
         public static void ShowProjectDetails()
         {
             string nameOfProject = GetProjectName(false);
             var project = FunctionalityFunctions.FindProject(nameOfProject);
+
             Console.WriteLine($"Projekt: {project.ProjectName}, opis projekta: {project.DescriptionOfProject}, datum pocetka: {project.DateOfStart}, datum zavrsetka: {project.DateOfEnd}, status: {project.Status}");
         }
         public static void PrintAllProjects()
@@ -240,11 +246,11 @@ namespace Internship_3_OOP1.Classes
             {
                 Console.WriteLine($"\nIme projekta: {project.Key.ProjectName}, opis projekta: {project.Key.DescriptionOfProject}, datum pocetka projekta: {project.Key.DateOfStart}, " +
                     $"datum zavrsetka: {project.Key.DateOfEnd}, status: {project.Key.Status}");
+
                 foreach (var task in project.Value)
                 {
                     Console.WriteLine($"\tZadatak: {task.NameOfTask}, opis zadatka: {task.DescriptionOfTask}, ocekivano vrijeme zavrsetka zadatka: {task.ExpectedTimeToFinih}, status zadatka: {task.Status}");
                 }
-                //Console.WriteLine("\n");
             }
         }
         public static string getNameOfProject(bool isNewName)

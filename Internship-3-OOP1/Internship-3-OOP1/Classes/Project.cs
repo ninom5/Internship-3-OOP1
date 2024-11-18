@@ -17,7 +17,7 @@ namespace Internship_3_OOP1.Classes
         private Guid id;
         public ProjectStatus Status; //{ get; set; }
 
-        public Project(string name, string description, DateOnly startOfProject, DateOnly endOfProject, Status.ProjectStatus status)//konstruktor
+        public Project(string name, string description, DateOnly startOfProject, DateOnly endOfProject, Status.ProjectStatus status)
         {
             ProjectName = name;
             DescriptionOfProject = description;
@@ -26,7 +26,8 @@ namespace Internship_3_OOP1.Classes
             Status = status;
             id = Guid.NewGuid();
         }
-        public Project(string name, string description, DateOnly startOfProject, DateOnly endOfProject)//konstruktor
+
+        public Project(string name, string description, DateOnly startOfProject, DateOnly endOfProject)
         {
             ProjectName = name;
             DescriptionOfProject = description;
@@ -35,7 +36,7 @@ namespace Internship_3_OOP1.Classes
             Status = ProjectStatus.Active;
             id = Guid.NewGuid();
         }
-
+        
         public Guid getId()
         {
             return id;

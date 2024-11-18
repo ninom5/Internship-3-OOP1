@@ -13,6 +13,7 @@ namespace Internship_3_OOP1.Classes
         {
             string projectName = ProjectFunctions.getNameOfProject(false);
             var project = FunctionalityFunctions.FindProject(projectName);
+
             if (project == null)
             {
                 Console.WriteLine("Ne postoji projekt s unesenim imenom");
@@ -25,12 +26,14 @@ namespace Internship_3_OOP1.Classes
             var taskList = Program.projects[project];
             var sortedTasks = taskList
                 .OrderBy(expextedTime => expextedTime.ExpectedTimeToFinih).ToList();
+
             FunctionalityFunctions.GetPrinted(sortedTasks);
         }
         public static void PrintSortedByPriority()
         {
             string projectName = ProjectFunctions.getNameOfProject(false);
             var project = FunctionalityFunctions.FindProject(projectName);
+
             if (project == null)
             {
                 Console.WriteLine("Ne postoji projekt s unesenim imenom");
@@ -43,6 +46,7 @@ namespace Internship_3_OOP1.Classes
             var taskList = Program.projects[project];
             var sortedTasks = taskList
                 .OrderBy(priority => priority.Priority).ToList();
+
             FunctionalityFunctions.GetPrinted(sortedTasks);
         }
     }
