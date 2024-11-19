@@ -221,6 +221,11 @@ namespace Internship_3_OOP1.Classes
                 Console.WriteLine("uneseni projekt ne postoji");
                 return; 
             }
+            if(project.Status == Status.ProjectStatus.Finished)
+            {
+                Console.WriteLine("Projekt je već oznacen kao zavrsen. Ne mozete vise mijenjati status projekta");
+                return;
+            }
 
             Console.WriteLine($"Trenutni status odabranog projekta({nameOfProject}): {project.Status}" +
                 $"\n\nOdaberite u koji status zelite promijeniti");
@@ -228,9 +233,13 @@ namespace Internship_3_OOP1.Classes
             if (newStatus == "Pending")
                 project.Status = Status.ProjectStatus.Pending;
             else if (newStatus == "Finished")
+            {
                 project.Status = Status.ProjectStatus.Finished;
+                TaskFunctions.SetAllTasksFinished(project);
+            }
             else
                 project.Status = Status.ProjectStatus.Active;
+            Console.WriteLine($"Status projekta promijenjen u: {newStatus}");
         }
 
         public static void ShowProjectDetails()

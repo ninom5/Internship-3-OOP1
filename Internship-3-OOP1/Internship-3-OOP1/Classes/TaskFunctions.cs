@@ -48,7 +48,7 @@ namespace Internship_3_OOP1.Classes
                 EditTaskStatus();
                 return;
             }
-
+           
             ChangeStatusOfTask(nameOfTask, listOfTasks);
             CheckIfAllTasksAreFinished(project);
         }
@@ -74,6 +74,11 @@ namespace Internship_3_OOP1.Classes
             {
                 if (task.NameOfTask == nameOfTask)
                 {
+                    if (task.Status == Status.StatusTask.Finished)
+                    {
+                        Console.WriteLine("Status zadatka je već oznacen kao zavrsen. Ne možete vise mijenjati status");
+                        return;
+                    }
                     newStatus = ChooseNewStatus();
                     SetNewStatus(newStatus, task);
                     isFound = true;
@@ -94,6 +99,8 @@ namespace Internship_3_OOP1.Classes
                 projectTask.Status = Status.StatusTask.Finished;
             else
                 projectTask.Status = Status.StatusTask.Delayed;
+
+            Console.WriteLine($"Staus zadatka promijenjen u: {newStatus}");
         }
         private static string ChooseNewStatus()
         {
@@ -391,6 +398,15 @@ namespace Internship_3_OOP1.Classes
                 sumOfMinutes += task.ExpectedTimeToFinih;
             }
             Console.WriteLine($"Ukupno ocekivano vrijeme za zavrsiti sve zadatke iznosi: {sumOfMinutes}");
+        }
+        public static void SetAllTasksFinished(Project project)
+        {
+            var listOfTasks = Program.projects[project];
+            foreach (var task in listOfTasks)
+            {
+                task.Status = Status.StatusTask.Finished;
+            }
+            Console.WriteLine($"Svi zadaci u projektu postavljeni na {Status.StatusTask.Finished}");
         }
     }
 }
